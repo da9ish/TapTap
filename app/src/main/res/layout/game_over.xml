@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="TapTap!"
+        android:id="@+id/your_score"
+        android:textSize="50sp"
+        android:textColor="#f44336"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="High Score"
+        android:id="@+id/high_score"
+        android:textColor="#03a9f4"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/replay"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_replay" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Share it with your friends"
+        android:id="@+id/share_text"
+        android:layout_marginTop="20dp"
+        android:textColor="#ff9800"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/facebook"
+            android:src="@drawable/ic_facebook"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/google_plus"
+            android:src="@drawable/ic_google_plus"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/twitter"
+            android:src="@drawable/ic_twitter"
+            android:layout_margin="5dp" />
+    </LinearLayout>
+
+</LinearLayout>

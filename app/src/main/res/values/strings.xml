@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TapTap!</string>
+    <string name="rule">"<b>Rules:</b> \n\n
+        &#8226; TapTap! is a simple yet addictive game.\n\n
+        &#8226; You have to blow all the color on the board which is displayed above before the time runs out.\n\n
+        &#8226; Tapping the wrong color impends you a penalty of 5 seconds.\n\n
+        &#8226; Blowing all the color on the board gives you a 3 seconds extra time."</string>
+</resources>
