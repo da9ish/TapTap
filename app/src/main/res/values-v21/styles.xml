@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-        <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-                <!-- Customize your theme here. -->
-                <item name="android:background">#ffffff</item>
-                <item name="android:statusBarColor">#bdbdbd</item>
-                <item name="colorPrimary">#def4f7</item>
-                <!--item name="colorPrimaryDark">#e4dcbe</item-->
-                <item name="colorAccent">@color/colorAccent</item>
+        <style name="AppTheme.NoActionBar">
+                <item name="windowActionBar">false</item>
+                <item name="windowNoTitle">true</item>
+                <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+                <item name="android:statusBarColor">@android:color/transparent</item>
         </style>
 </resources>

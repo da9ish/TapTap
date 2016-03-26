@@ -1,88 +1,141 @@
 package com.ddev.game.taptap;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Danish Shah on 27/01/2016.
+ * Created by Danish Shah on 24/03/2016.
  */
-public class GameOver extends AppCompatActivity {
+public class GameOver extends Fragment {
 
-    long hscore;
+    long hscore,cscore;
+    int level;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_over);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.game_over, container, false);
 
-        final SharedPreferences sPref = this.getSharedPreferences("TapTap!", MODE_PRIVATE);
+        final SharedPreferences sPref = getContext().getSharedPreferences("TapTap!", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sPref.edit();
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        long score = bundle.getLong("KEY_SCORE");
-        Log.d("APP", "GOT Score" + score);
-        if (score > hscore) {
-            editor.putLong("HighScore", score);
-            editor.commit();
+        switch (level){
+            case 1:
+                hscore = sPref.getLong("EHighScore",0);
+                break;
+            case 2:
+                hscore = sPref.getLong("MHighScore",0);
+                break;
+            case 3:
+                hscore = sPref.getLong("HHighScore",0);
+                break;
+        }
+        Log.i("TapTap!", "Prev High Score is "+hscore);
+
+        if (cscore > hscore) {
+            switch (level){
+                case 1:
+                    editor.putLong("EHighScore", cscore);
+                    editor.commit();
+                    break;
+                case 2:
+                    editor.putLong("MHighScore", cscore);
+                    editor.commit();
+                    break;
+                case 3:
+                    editor.putLong("HHighScore", cscore);
+                    editor.commit();
+                    break;
+            }
+            hscore = cscore;
         }
 
-        hscore = sPref.getLong("HighScore", 0);
+        if(hscore==0)
+            hscore=cscore;
 
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "battlelines.ttf");
 
-        Typeface tf = Typeface.createFromAsset(getAssets(), "battlelines.ttf");
-
-        TextView sc = (TextView) findViewById(R.id.your_score);
-        sc.setText(Long.toString(score));
+        TextView title = (TextView) v.findViewById(R.id.title);
+        title.setTypeface(tf);
+        TextView score = (TextView) v.findViewById(R.id.score);
+        score.setTypeface(tf);
+        TextView h = (TextView) v.findViewById(R.id.h_score);
+        h.setTypeface(tf);
+        TextView sc = (TextView) v.findViewById(R.id.curr_score);
+        sc.setText(Long.toString(cscore));
         sc.setTypeface(tf);
-        TextView hsc = (TextView) findViewById(R.id.high_score);
+        TextView hsc = (TextView) v.findViewById(R.id.high_score);
         hsc.setText(Long.toString(hscore));
         hsc.setTypeface(tf);
-        TextView share = (TextView) findViewById(R.id.share_text);
-        share.setTypeface(tf);
 
-        ImageView replay = (ImageView) findViewById(R.id.replay);
-        ImageView fb = (ImageView) findViewById(R.id.facebook);
-        ImageView gp = (ImageView) findViewById(R.id.google_plus);
-        ImageView twitt = (ImageView) findViewById(R.id.twitter);
+        ImageView replay = (ImageView) v.findViewById(R.id.replay);
 
         replay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main = new Intent(GameOver.this, MainActivity.class);
-                startActivity(main);
-
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                finish();
+                switch (level){
+                    case 1:
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, new Easy())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit();
+                        break;
+                    case 2:
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, new Medium())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit();
+                        break;
+                    case 3:
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, new Hard())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit();
+                        break;
+                }
             }
         });
 
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        return v;
+    }
 
-            }
-        });
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i("TapTap!", "OnStop.");
+    }
 
-        gp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i("TapTap!", "OnDestroyView.");
+    }
 
-            }
-        });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getFragmentManager().beginTransaction()
+                .remove(this)
+                .commit();
+        Log.i("TapTap!", "OnDestroy.");
+    }
 
-        twitt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    public void setLevel(int l){
+        level = l;
+    }
 
-            }
-        });
+    public void setCscore(long score){
+        cscore = score;
     }
 }
